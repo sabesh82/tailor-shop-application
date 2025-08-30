@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  DONE
+}
+
+enum UserRole {
+  TAILOR
+}
+
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  
+  firstName      String
+  lastName String
+  email     String    @unique
+  password  String
+  
+  createdAt DateTime  @default(now())
+  orders    Order[]   @relation("TailorOrders") // orders assigned to this tailor
+}
+
+model Order {
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  customerName     String
+  email            String
+  address          String
+  phone            String
+  dressDetails     String
+  neckSize         Float
+  chestSize        Float
+  hipSize          Float
+  shoulderSize     Float
+  otherMeasurements String?
+  selectedDesign   Json       
+  status           OrderStatus @default(PENDING)
+  tailor           User?       @relation("TailorOrders", fields: [tailorId], references: [id])
+  tailorId         String?     @db.ObjectId
+  createdAt        DateTime    @default(now())
+}
