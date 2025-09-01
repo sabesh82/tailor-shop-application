@@ -10,7 +10,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const designFiles = ["frock.jpg", "kurta.jpg", "shirt.jpg"];
+const designFiles = ["hand1.jpg", "hand2.jpg", "hand3.jpg"];
 
 const OrderForm = () => {
   const router = useRouter();

@@ -48,7 +48,7 @@ model Order {
   hipSize          Float
   shoulderSize     Float
   otherMeasurements String?
-  selectedDesign   Json       
+  selectedDesign   Json?       
   status           OrderStatus @default(PENDING)
   tailor           User?       @relation("TailorOrders", fields: [tailorId], references: [id])
   tailorId         String?     @db.ObjectId
